@@ -1,12 +1,17 @@
 {
   "name": "todo-manager",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "./out/main/index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron-vite preview",
+    "dev": "electron-vite",
+    "prebuild": "electron-vite build"
   },
   "dependencies": {
     "electron": "^32.1.2",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "electron-vite": "^2.3.0"
   }
 }
