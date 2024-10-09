@@ -6,8 +6,9 @@ export default defineConfig({
     build: {
       rollupOptions: {
         input: {
-          index: resolve(__dirname, 'electron/main/index.js')
-        }
+          index: resolve(__dirname, 'electron/main/index.ts')
+        },
+        external: ['sqlite3'] // 不打包sqlite3
       }
     }
   },
@@ -15,7 +16,7 @@ export default defineConfig({
     build: {
       rollupOptions: {
         input: {
-          index: resolve(__dirname, 'electron/preload/index.js')
+          index: resolve(__dirname, 'electron/preload/index.ts')
         }
       }
     }
