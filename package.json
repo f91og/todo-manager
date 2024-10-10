@@ -2,16 +2,32 @@
   "name": "todo-manager",
   "version": "1.0.0",
   "main": "./out/main/index.js",
+  "build": {
+    "appId": "com.f91og.todo-manager",
+    "productName": "Todo Manager",
+    "files": [
+      "out/**/*"
+    ],
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "category": "public.app-category.productivity"
+    }
+  },
   "scripts": {
     "start": "electron-vite preview",
     "dev": "electron-vite",
-    "prebuild": "electron-vite build"
+    "prebuild": "electron-vite build",
+    "build": "electron-builder"
   },
   "dependencies": {
-    "electron": "^32.1.2",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
+    "electron": "^32.1.2",
+    "electron-builder": "^25.1.7",
     "electron-vite": "^2.3.0",
     "typescript": "^5.6.3"
   }

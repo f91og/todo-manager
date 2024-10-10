@@ -26,11 +26,11 @@ pnpm install electron-vite --save-dev
 pnpm install typescript --save-dev
 # configure tsconfig.json
 ```
+## 
 
-
-<!-- ## integrate electron-builder
+## integrate electron-builder
 ```shell
 # https://www.electron.build/
 pnpm install electron-builder --save-dev
-# configure electron.vite.config.js
-``` -->
+# configure package.json
+```
