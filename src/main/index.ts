@@ -22,7 +22,7 @@ function createWindow(): void {
         skipTaskbar: true,
         roundedCorners: false,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
+            preload: path.join(__dirname, '../preload/index.js'),
             nodeIntegration: true,
             contextIsolation: false
         }
@@ -30,7 +30,7 @@ function createWindow(): void {
 
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     win.setPosition(width - 300, height - 400);
-    win.loadFile('index.html');
+    win.loadFile(path.join(__dirname, '../renderer/index.html'));
 
     // 当窗口关闭时，清除 win 对象
     win.on('closed', () => {
@@ -138,6 +138,11 @@ ipcMain.handle('window-dock', (): void => {
 app.whenReady().then(() => {
     initDatabase();
     createWindow();
+    globalShortcut.register('CommandOrControl+Shift+I', () => {
+        if (win != null) {
+            win.webContents.toggleDevTools();
+        }
+    });
 });
 
 app.on('window-all-closed', () => {

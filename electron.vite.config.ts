@@ -1,34 +1,20 @@
-import { defineConfig } from 'electron-vite'
+import { defineConfig, externalizeDepsPlugin, } from 'electron-vite'
 import { resolve } from 'path'
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   main: {
-    build: {
-      rollupOptions: {
-        input: {
-          index: resolve(__dirname, 'electron/main/index.ts')
-        },
-        external: ['sqlite3'] // 不打包sqlite3
-      }
-    }
-  },
+    plugins: [externalizeDepsPlugin()]
+  },  // electron主进程的build配置
   preload: {
-    build: {
-      rollupOptions: {
-        input: {
-          index: resolve(__dirname, 'electron/preload/index.ts')
-        }
+    plugins: [externalizeDepsPlugin()]
+  }, // 预加载脚本的build配置
+  renderer: { // render进程build的配置
+    resolve: {
+      alias: {
+        '@renderer': resolve('src/renderer/src')
       }
-    }
-  },
-  renderer: {
-    root: '.',
-    build: {
-      rollupOptions: {
-        input: {
-          index: resolve(__dirname, 'index.html')
-        }
-      }
-    }
+    },
+    plugins: [react()]
   }
-})
+});

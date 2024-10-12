@@ -1,14 +1,11 @@
 {
+    "include": ["electron.vite.config.*", "src/main/**/*", "src/preload/**/*", "src/renderer/src/**/*"],
     "compilerOptions": {
-      "target": "ESNext",
-      "module": "ESNext",
       "jsx": "react-jsx",
-      "moduleResolution": "node",
       "strict": true,
-      "esModuleInterop": true,
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
       "resolveJsonModule": true,
-      "isolatedModules": true
-    }
+      "isolatedModules": true,
+    },
   }
