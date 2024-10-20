@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain, globalShortcut, screen } from 'electron';
-import * as path from 'path';
+import { join } from 'path';
 import * as os from 'os';
 import * as sqlite3 from 'sqlite3';
 
@@ -22,7 +22,7 @@ function createWindow(): void {
         skipTaskbar: true,
         roundedCorners: false,
         webPreferences: {
-            preload: path.join(__dirname, '../preload/index.js'),
+            preload: join(__dirname, '../preload/index.js'),
             nodeIntegration: true,
             contextIsolation: false
         }
@@ -30,7 +30,7 @@ function createWindow(): void {
 
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     win.setPosition(width - 300, height - 400);
-    win.loadFile(path.join(__dirname, '../renderer/index.html'));
+    win.loadFile(join(__dirname, '../renderer/index.html'));
 
     // 当窗口关闭时，清除 win 对象
     win.on('closed', () => {
@@ -41,7 +41,7 @@ function createWindow(): void {
 // 初始化数据库
 function initDatabase(): void {
     const homeDir: string = os.homedir();
-    const dbPath: string = path.join(homeDir, '.todos.db');
+    const dbPath: string = join(homeDir, '.todos.db');
     db = new sqlite3.Database(dbPath, (err: Error | null) => {
         if (err) {
             console.error('Error opening database', err);

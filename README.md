@@ -51,3 +51,5 @@ now we can use react in main.tsx under src folder, next we need to import react 
 add `<script type="module" src="/src/main.tsx"></script>` in index.html in project root directory.
 config `include`, in tsconfig.json will to build ts, replace the reference path in main process for `preload.ts` and `index.html` if you changed directory structure.
 
+Uncaught TypeError: path.join is not a function => 修改引用方式为：const { ipcRenderer } = window.require('electron');即可.
+通过检查build出的js文件，里面有用到 `path.join` ，但是 `path` 是 `node` 的模块，所以需要通过 `window.require` 来引入。
