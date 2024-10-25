@@ -4,7 +4,7 @@
   "main": "./out/main/index.js",
   "scripts": {
     "preview": "electron-vite preview",
-    "dev": "electron-vite dev",
+    "dev": "electron-vite dev --watch",
     "prebuild": "electron-vite build",
     "build": "electron-vite build"
   },

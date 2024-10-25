@@ -3,8 +3,6 @@ import { join } from 'path';
 import * as os from 'os';
 import * as sqlite3 from 'sqlite3';
 
-// 类型声明
-let win: BrowserWindow | null = null;
 let db: sqlite3.Database;
 let isAlwaysOnTop: boolean = true;  // 默认窗口总是在最前
 let isDocked: boolean = false;      // 窗口是否悬挂状态
@@ -12,7 +10,7 @@ let originalBounds: Electron.Rectangle | null = null; // 存储窗口原来的�
 
 // 创建窗口
 function createWindow(): void {
-    win = new BrowserWindow({
+    const mainWindow = new BrowserWindow({
         width: 300,
         height: 400,
         frame: false,
@@ -29,13 +27,13 @@ function createWindow(): void {
     });
 
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-    win.setPosition(width - 300, height - 400);
-    win.loadFile(join(__dirname, '../renderer/index.html'));
+    mainWindow.setPosition(width - 300, height - 400);
 
-    // 当窗口关闭时，清除 win 对象
-    win.on('closed', () => {
-        win = null;
-    });
+    if (!app.isPackaged && process.env['ELECTRON_RENDERER_URL']) {
+        mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+      } else {
+        mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    }
 }
 
 // 初始化数据库
