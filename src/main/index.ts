@@ -3,6 +3,7 @@ import { join } from 'path';
 import * as os from 'os';
 import * as sqlite3 from 'sqlite3';
 
+let mainWindow: BrowserWindow;
 let db: sqlite3.Database;
 let isAlwaysOnTop: boolean = true;  // 默认窗口总是在最前
 let isDocked: boolean = false;      // 窗口是否悬挂状态
@@ -10,7 +11,7 @@ let originalBounds: Electron.Rectangle | null = null; // 存储窗口原来的�
 
 // 创建窗口
 function createWindow(): void {
-    const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 300,
         height: 400,
         frame: false,
@@ -111,18 +112,18 @@ ipcMain.handle('toggle-todo', (event: Electron.IpcMainInvokeEvent, id: number, d
 
 // 窗口悬挂和恢复功能
 ipcMain.handle('window-dock', (): void => {
-    if (win) {
+    if (mainWindow) {
         if (isDocked) {
             // 还原窗口大小和内容
-            win.setBounds(originalBounds!);
+            mainWindow.setBounds(originalBounds!);
             isDocked = false;
         } else {
             // 获取屏幕尺寸并悬挂到右边
             const { width } = screen.getPrimaryDisplay().bounds;
-            originalBounds = win.getBounds();  // 存储原窗口尺寸
+            originalBounds = mainWindow.getBounds();  // 存储原窗口尺寸
 
             // 悬挂到屏幕右边，保持原窗口的高度
-            win.setBounds({
+            mainWindow.setBounds({
                 x: width - 25,       // 悬挂到屏幕右边，减去窄宽度的部分
                 y: originalBounds.y,  // 保持原来的Y位置
                 width: 25,            // 宽度缩小，容纳"Todo"
@@ -137,8 +138,8 @@ app.whenReady().then(() => {
     initDatabase();
     createWindow();
     globalShortcut.register('CommandOrControl+Shift+I', () => {
-        if (win != null) {
-            win.webContents.toggleDevTools();
+        if (mainWindow != null) {
+            mainWindow.webContents.toggleDevTools();
         }
     });
 });
