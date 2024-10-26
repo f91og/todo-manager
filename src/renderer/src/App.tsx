@@ -8,6 +8,11 @@ interface Todo {
   done: boolean;
 }
 
+window.addEventListener('dblclick', () => {
+  console.log('invoke window-dock');
+  ipcRenderer.invoke('window-dock');
+});
+
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState('');
@@ -31,6 +36,16 @@ function App() {
   const handleToggleTodo = async (todo: Todo) => {
     await ipcRenderer.invoke('toggle-todo', todo.id, !todo.done);
     setTodos(todos.map(t => t.id === todo.id ? { ...t, done: !t.done } : t));
+  };
+
+  const handleUpdateTodo = async (todo: Todo, newText: string) => {
+    await ipcRenderer.invoke('update-todo', todo.id, newText);
+    setTodos(todos.map(t => t.id === todo.id ? { ...t, text: newText } : t));
+  };
+
+  const handleDeleteTodo = async (todo: Todo) => {
+    await ipcRenderer.invoke('delete-todo', todo.id);
+    setTodos(todos.filter(t => t.id !== todo.id));
   };
 
   return (
