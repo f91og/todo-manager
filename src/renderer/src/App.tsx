@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 const { ipcRenderer } = window.require('electron')
 import './App.css';
+import TodoItem from './components/TodoItem';
 
 interface Todo {
   id: number;
@@ -50,25 +51,13 @@ function App() {
 
   return (
     <div>
-      <ul className="todo-list">
-        {todos.map(todo => (
-          <li
-            key={todo.id}
-            className={`todo-item ${todo.done ? 'done' : ''}`}
-            onClick={() => handleToggleTodo(todo)}
-          >
-            {todo.text}
-          </li>
-        ))}
-      </ul>
-      <input
-        className="add-todo"
-        type="text"
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
-        onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
-        placeholder="Add a new todo"
-      />
+      {todos.map(todo => (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          onToggle={handleToggleTodo}
+        />
+      ))}
     </div>
   );
 }
