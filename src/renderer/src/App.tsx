@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 const { ipcRenderer } = window.require('electron')
 import './App.css';
 import TodoItem from './components/TodoItem';

@@ -4,6 +4,7 @@
       "jsx": "react-jsx",
       "strict": true,
       "skipLibCheck": true,
+      "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
       "resolveJsonModule": true,
       "isolatedModules": true,
