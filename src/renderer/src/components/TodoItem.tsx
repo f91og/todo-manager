@@ -1,17 +1,18 @@
 // TodoItem.tsx
 import { useState } from 'react'
+const { ipcRenderer } = window.require('electron')
 
 interface TodoItemProps {
   todo: { id: number; text: string; done: boolean };
-  onToggle: (todo: { id: number; text: string; done: boolean }) => void;
 }
 
-function TodoItem({ todo, onToggle }: TodoItemProps): JSX.Element {
+function TodoItem({ todo }: TodoItemProps): JSX.Element {
   const [isDone, setIsDone] = useState(todo.done)
-  const handleToggle = () => {
+  const handleToggle = async () => {
+    await ipcRenderer.invoke('toggle-todo', todo.id, !todo.done);
     setIsDone(!isDone)
-    onToggle({ ...todo, done: !isDone })
   }
+  
   return (
     <li
       className={`todo-item ${isDone ? 'done' : ''}`}

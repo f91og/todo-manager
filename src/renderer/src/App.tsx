@@ -34,11 +34,6 @@ function App() {
     }
   };
 
-  const handleToggleTodo = async (todo: Todo) => {
-    await ipcRenderer.invoke('toggle-todo', todo.id, !todo.done);
-    setTodos(todos.map(t => t.id === todo.id ? { ...t, done: !t.done } : t));
-  };
-
   const handleUpdateTodo = async (todo: Todo, newText: string) => {
     await ipcRenderer.invoke('update-todo', todo.id, newText);
     setTodos(todos.map(t => t.id === todo.id ? { ...t, text: newText } : t));
@@ -55,7 +50,6 @@ function App() {
         <TodoItem
           key={todo.id}
           todo={todo}
-          onToggle={handleToggleTodo}
         />
       ))}
     </div>
